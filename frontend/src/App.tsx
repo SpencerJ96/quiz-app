@@ -22,7 +22,7 @@ function App () {
 		}
 		fetchQuestions() //call the function - state updates (setQuestions) questions appear
 	},
-	 	[])
+	 	[])// useEffect on empty array = run on app load.
 		
 		
 		function handleAnswer (index: number) {
@@ -36,17 +36,24 @@ function App () {
 			setCurrentIndex(currentIndex +1)
 		} 
 
-	}// useEffect on empty array = run on app load.
+	}
+
+	    function handleRestart (){
+			setScore(0)
+			setQuizFinished(false)
+			setCurrentIndex(0)
+		}
 		
 	
 	
 	return( 
-		questions.length === 0 ? <div>Loading....</div>
+		<div className="min-h-screen bg-purple-950 flex items-center justify-center">
+		{questions.length === 0 ? <div>Loading....</div>
 		:
-		quizFinished ? <QuizResults score ={score} total={questions.length}/>
+		quizFinished ? <QuizResults score ={score} total={questions.length} onRestart={handleRestart}/>
 		:
-		<QuizQuestion question = {questions[currentIndex]} onAnswer={handleAnswer} />
-		
+		<QuizQuestion question = {questions[currentIndex]} onAnswer={handleAnswer} />}
+		</div>
 
 	)
 }
