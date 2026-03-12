@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import type { Question } from "./types"
+import QuizQuestion from "./QuizQuestion"
+import QuizResults from "./QuizResults"
 
 function App () {
 		/* *STATE DECLARATIONS */
@@ -20,12 +22,33 @@ function App () {
 		}
 		fetchQuestions() //call the function - state updates (setQuestions) questions appear
 	},
-	 	[]) // useEffect on empty array = run on app load.
-		return <div>Quiz Loading...</div>
+	 	[])
+		
+		
+		function handleAnswer (index: number) {
+		if (index === questions[currentIndex].correctIndex){
+			setScore(score + 1)
+		}
 
+		if (currentIndex === questions.length -1 ){
+			setQuizFinished(true)
+		} else {
+			setCurrentIndex(currentIndex +1)
+		} 
 
+	}// useEffect on empty array = run on app load.
+		
+	
+	
+	return( 
+		questions.length === 0 ? <div>Loading....</div>
+		:
+		quizFinished ? <QuizResults score ={score} total={questions.length}/>
+		:
+		<QuizQuestion question = {questions[currentIndex]} onAnswer={handleAnswer} />
+		
 
-
+	)
 }
 
 export default App
