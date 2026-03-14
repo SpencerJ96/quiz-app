@@ -25,19 +25,26 @@ function App () {
 	 	[])// useEffect on empty array = run on app load.
 		
 		
+		//Function expects a number and we'll call it index while we work with it
 		function handleAnswer (index:number){
 
+			// * BUG FIX * 
+			// State updates are ASYNCHRONOUS. If you call setScore + 1 score doesnt change until next render
+			// when QuizResult comp renders score still has the old value so shows an incorrect score
+			// By using a plain variable it can update instantly so newScore is always correct. 
 			const newScore = index === questions[currentIndex].correctIndex ? score + 1 : score
-
+					
+					//If the index recieved is = to the current questions correct index
+					//Update score state
 			if (
 				index === questions[currentIndex].correctIndex) {
 					setScore(newScore)
-				} if (
+				} if (			//if the current question number is === the array length -1 end quiz
 					currentIndex === questions.length - 1) {
 						setQuizFinished(true)
-					} else (
+					} else {
 						setCurrentIndex(currentIndex + 1)
-					) 
+					} 
 						
 		}
 
