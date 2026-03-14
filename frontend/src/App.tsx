@@ -25,18 +25,21 @@ function App () {
 	 	[])// useEffect on empty array = run on app load.
 		
 		
-		function handleAnswer (index: number) {
-		if (index === questions[currentIndex].correctIndex){
-			setScore(score + 1)
+		function handleAnswer (index:number){
+
+			const newScore = index === questions[currentIndex].correctIndex ? score + 1 : score
+
+			if (
+				index === questions[currentIndex].correctIndex) {
+					setScore(newScore)
+				} if (
+					currentIndex === questions.length - 1) {
+						setQuizFinished(true)
+					} else (
+						setCurrentIndex(currentIndex + 1)
+					) 
+						
 		}
-
-		if (currentIndex === questions.length -1 ){
-			setQuizFinished(true)
-		} else {
-			setCurrentIndex(currentIndex +1)
-		} 
-
-	}
 
 	    function handleRestart (){
 			setScore(0)

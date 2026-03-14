@@ -48,7 +48,7 @@ var questions = new List <Question>
 	 {	Id = 4,
 	 	Text = "Which One Of These Countries Has Scored The HIGHEST in the Public vote in 2023",
 		Answers = new List<string> {"Sweden", "Finland", "UK", "Israel"},
-		CorrectIndex = 0
+		CorrectIndex = 1
 	 }
 };
 
