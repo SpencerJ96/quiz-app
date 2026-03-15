@@ -3,6 +3,7 @@ import type { Question } from "./types";
 interface QuizQuestionProps {
 	question : Question
 	onAnswer: ( index : number ) => void
+	selectedIndex: number | null
 }
 // Defining question as our Question interface lets us pull out pieces of it like .text and .answers
 
@@ -17,12 +18,23 @@ interface QuizQuestionProps {
 function QuizQuestion (props: QuizQuestionProps){
 	return(
 		<div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl">
-			
+
 		<div className="text-2xl font-bold text-purple-900 mb-6">{props.question.text}</div>
-		{props.question.answers.map((answer, index) => (
-			<button className="w-full block bg-yellow-400 hover:bg-yellow-300 text-purple-900 font-semibold py-3 px-4 rounded-xl mb-3 cursor-pointer"
+		{props.question.answers.map((answer, index)  => {
+				const buttonClass = props.selectedIndex === null ? "w-full block bg-yellow-400 hover:bg-yellow-300 text-purple-900 font-semibold py-3 px-4 rounded-xl mb-3 cursor-pointer"
+							//Correct answer					
+					: index === props.question.correctIndex ? "w-full block bg-green-500 hover:bg-green-500 text-purple-900 font-semibold py-3 px-4 rounded-xl mb-3 cursor-pointer"
+							//Incorrect answer
+					: index === props.selectedIndex  ? "w-full block bg-red-500 hover:bg-red-500 text-purple-900 font-semibold py-3 px-4 rounded-xl mb-3 cursor-pointer"
+							//Neither correct nor selected
+					: "w-full block bg-yellow-400 hover:bg-yellow-300 text-purple-900 font-semibold py-3 px-4 rounded-xl mb-3 cursor-pointer"
+
+			return (
+			
+			<button className={buttonClass}
 			 key={index} onClick={() => props.onAnswer(index)}>{answer}</button>
-		))}
+			)
+			})}
 
 		</div>
 
