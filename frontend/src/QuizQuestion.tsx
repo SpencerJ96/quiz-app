@@ -4,6 +4,8 @@ interface QuizQuestionProps {
 	question : Question
 	onAnswer: ( index : number ) => void
 	selectedIndex: number | null
+	questionNumber: number
+	questionTotal: number
 }
 // Defining question as our Question interface lets us pull out pieces of it like .text and .answers
 
@@ -18,6 +20,8 @@ interface QuizQuestionProps {
 function QuizQuestion (props: QuizQuestionProps){
 	return(
 		<div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl">
+
+		<div className="text-sm font-semibold text-purple-400 mb-2"> {props.questionNumber + 1 } Out Of {props.questionTotal}</div>
 
 		<div className="text-2xl font-bold text-purple-900 mb-6">{props.question.text}</div>
 		{props.question.answers.map((answer, index)  => {

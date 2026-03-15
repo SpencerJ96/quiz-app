@@ -67,7 +67,8 @@ function App () {
 		:
 		quizFinished ? <QuizResults score ={score} total={questions.length} onRestart={handleRestart}/>
 		:
-		<QuizQuestion question = {questions[currentIndex]} onAnswer={handleAnswer} selectedIndex={selectedIndex}/>}
+		<QuizQuestion question = {questions[currentIndex]} onAnswer={handleAnswer} selectedIndex={selectedIndex}
+						questionNumber = {currentIndex} questionTotal = {questions.length}/>}
 		</div>
 
 	)
