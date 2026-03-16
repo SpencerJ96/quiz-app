@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import type { Question } from "./types"
 import QuizQuestion from "./QuizQuestion"
 import QuizResults from "./QuizResults"
+import QuizStart from "./QuizStart"
 
 function App () {
 		/* *STATE DECLARATIONS */
@@ -11,6 +12,8 @@ function App () {
 	const [score, setScore] = useState(0)
 	const [quizFinished, setQuizFinished] = useState(false)
 	const [selectedIndex, setSelectedIndex] = useState <number | null>(null)
+	const [quizStarted, setQuizStarted] = useState (false)
+	const [name, setName] = useState ("")
 
 	useEffect(() => {
 		async function fetchQuestions(){
@@ -26,7 +29,14 @@ function App () {
 	 	[])// useEffect on empty array = run on app load.
 		
 		
-		//Function expects a number and we'll call it index while we work with it
+		function handleStart (name : string){
+			setName(name)
+			setQuizStarted(true)
+		}
+
+
+
+		//Function expects a number
 		function handleAnswer (index:number){
 
 			// * BUG FIX * 
@@ -63,12 +73,16 @@ function App () {
 		
 	return( 
 		<div className="min-h-screen bg-purple-950 flex items-center justify-center">
-		{questions.length === 0 ? <div>Loading....</div>
+		{
+		!quizStarted ? <QuizStart onStart={handleStart} />
 		:
-		quizFinished ? <QuizResults score ={score} total={questions.length} onRestart={handleRestart}/>
+		questions.length === 0 ? <div>Loading....</div>
+		:
+		quizFinished ? <QuizResults score ={score} total={questions.length} onRestart={handleRestart} name={name}/>
 		:
 		<QuizQuestion question = {questions[currentIndex]} onAnswer={handleAnswer} selectedIndex={selectedIndex}
-						questionNumber = {currentIndex} questionTotal = {questions.length}/>}
+						questionNumber = {currentIndex} questionTotal = {questions.length}/>
+		}
 		</div>
 
 	)
