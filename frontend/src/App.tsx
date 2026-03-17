@@ -14,6 +14,7 @@ function App () {
 	const [selectedIndex, setSelectedIndex] = useState <number | null>(null)
 	const [quizStarted, setQuizStarted] = useState (false)
 	const [name, setName] = useState ("")
+	const [timer, setTimer] = useState (15)
 
 	useEffect(() => {
 		async function fetchQuestions(){
@@ -50,6 +51,23 @@ function App () {
 			setName(name)
 			setQuizStarted(true)
 		}
+
+		useEffect( () =>{
+			if (!quizStarted) return //Prevents counter from starting if quiz hasnt started
+
+			const interval = setInterval(() => {
+				setTimer(prev => prev - 1) // Use functional form to countdown instead of timer to prevent stale closure of the state
+			},1000)
+			return () => clearInterval(interval)
+		},[currentIndex, quizStarted]) // Needs to listen for changes to quizstarted too so it runs when the boolean changes
+
+			//if timer hits 0, force incorrect answer and reset timer state
+		useEffect ( () => {
+			if (timer === 0){
+				handleAnswer(-1)
+				setTimer(15)
+			}
+		},[timer, quizStarted])
 
 		useEffect( () => {
 			if (quizFinished === true){
@@ -110,7 +128,7 @@ function App () {
 		quizFinished ? <QuizResults score ={score} total={questions.length} onRestart={handleRestart} name={name}/>
 		:
 		<QuizQuestion question = {questions[currentIndex]} onAnswer={handleAnswer} selectedIndex={selectedIndex}
-						questionNumber = {currentIndex} questionTotal = {questions.length}/>
+						questionNumber = {currentIndex} questionTotal = {questions.length} timer={timer}/>
 		}
 		</div>
 
