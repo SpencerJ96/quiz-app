@@ -54,7 +54,7 @@ function App () {
 
 		useEffect( () =>{
 			if (!quizStarted) return //Prevents counter from starting if quiz hasnt started
-
+			setTimer(15)    // Reset Timer to 15 everytime currentIndex Changes 
 			const interval = setInterval(() => {
 				setTimer(prev => prev - 1) // Use functional form to countdown instead of timer to prevent stale closure of the state
 			},1000)
