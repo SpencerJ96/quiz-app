@@ -14,6 +14,7 @@ function QuizStart (props:QuizStartProps){
 	function audioStart () {
 		if (audioRef.current === null) 
 			{	audioRef.current = new Audio ("/audio/Intro.mp3")
+				audioRef.current.volume = 0.3
 				audioRef.current.play()
 			}
 		

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import type { Question } from "./types"
 import QuizQuestion from "./QuizQuestion"
 import QuizResults from "./QuizResults"
@@ -27,14 +27,36 @@ function App () {
 		fetchQuestions() //call the function - state updates (setQuestions) questions appear
 	},
 	 	[])// useEffect on empty array = run on app load.
-		
-		
+
+						// ** AUDIO ARRAY AND PLAYER AFTER START ** // 
+		//Create a ref(box to hold value)
+		// < > tells TS What this may hold, either audio element or nothing
+		const quizAudioRef = useRef<HTMLAudioElement | null> (null)
+
 		function handleStart (name : string){
+			const audioArray = ["/audio/Johnny Logan.mp3", "/audio/ChaChaCha.mp3", "/audio/Kuula.mp3"]
+								//Use math object
+								//Floor = round down to nearest whole number
+								//random = generate random decimal
+								//Times the random decimal by the length or the array round down answer
+								// e.g random = 0.73. --- multiply by 3 = 2.19 ---- Round down = 2
+								//Round is needed because array indexes MUST BE WHOLE numbers. 
+			const randomIndex = Math.floor(Math.random() * audioArray.length) 
+			quizAudioRef.current = new Audio(audioArray[randomIndex])
+			quizAudioRef.current.volume = 0.3
+			//Take whats currently in the audioRef and store a new audio player with the randomIndex from audioArray
+			quizAudioRef.current.play()
+
 			setName(name)
 			setQuizStarted(true)
 		}
 
-
+		useEffect( () => {
+			if (quizFinished === true){
+				quizAudioRef.current?.pause()
+			}
+			console.log(quizFinished)
+		}, [quizFinished])
 
 		//Function expects a number
 		function handleAnswer (index:number){
@@ -69,6 +91,13 @@ function App () {
 			setQuizFinished(false)
 			setCurrentIndex(0)
 			setSelectedIndex(null)
+			
+			const audioArray = ["/audio/Johnny Logan.mp3", "/audio/ChaChaCha.mp3", "/audio/Kuula.mp3"]
+			const randomIndex = Math.floor (Math.random() * audioArray.length)
+			quizAudioRef.current = new Audio(audioArray[randomIndex])
+			quizAudioRef.current.volume = 0.3
+			quizAudioRef.current.play()
+			
 		}
 		
 	return( 
