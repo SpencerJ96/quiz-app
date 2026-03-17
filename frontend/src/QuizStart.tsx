@@ -25,8 +25,10 @@ function QuizStart (props:QuizStartProps){
 		<h1 className="text-3xl font-bold text-purple-900 mb-6">Alices BIG Eurovision Quiz</h1>
 
 		<input className="w-full border-2 border-purple-300 rounded-xl px-4 py-3 mb-6 text-purple-900 focus:outline-none focus:border-purple-600"
-		 onChange = {(e) => {
-			setName(e.target.value)
+		 onChange = {(e) => { 
+			const lettersOnly = e.target.value.replace (/[^a-zA-Z ]/g, "") //Replace any char that isnt a letter or space with nothing
+														// ^ "NOT" a-zA-Z means any letter "_SPACE_" Allow spaces "G" means apply to entire string
+			if (lettersOnly.length <20) { setName(lettersOnly)}
 			audioStart()
 			}}/>
 
