@@ -29,7 +29,7 @@ function QuizResults ( props: QuizResultsProps ){
 	<div className="text-5xl font-bold text-yellow-500 mb-6">{props.score} Out of {props.total}</div>
 			<p>{message}</p>
 			 
-			  /* Loop through scores from local storage. Index Key prevents dupes*/
+			 
 			{scores.map((entry, index) => (
 		<div key={index}>{entry.name} - {entry.score}</div>
 			))}

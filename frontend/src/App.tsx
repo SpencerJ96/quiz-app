@@ -3,6 +3,7 @@ import type { Question } from "./types"
 import QuizQuestion from "./QuizQuestion"
 import QuizResults from "./QuizResults"
 import QuizStart from "./QuizStart"
+import QuizCategory from "./QuizCategory"
 
 function App () {
 		/* *STATE DECLARATIONS */
@@ -15,21 +16,29 @@ function App () {
 	const [quizStarted, setQuizStarted] = useState (false)
 	const [name, setName] = useState ("")
 	const [timer, setTimer] = useState (15)
+	const [selectedCategory, setSelectedCategory] = useState("")
+	const [nameEntered, setNameEntered] = useState(false)
 
 	useEffect(() => {
+		if (selectedCategory === "") return
 		async function fetchQuestions(){
 				//Sends fetch to backend
-			const questFetch = await fetch ("http://localhost:5220/api/questions")
+			const questFetch = await fetch (`http://localhost:5220/api/questions?category=${selectedCategory}`)
 				// store fetch and convert it to JS object
 			const questResponse = await questFetch.json()
+			setQuizStarted(true)
 			//Set state of questions with the fetch 
 			setQuestions(questResponse)
 		}
 		fetchQuestions() //call the function - state updates (setQuestions) questions appear
 	},
-	 	[])// useEffect on empty array = run on app load.
+	 	[selectedCategory])// useEffect on empty array = run on app load.
 
-						// ** AUDIO  AND PLAYER AFTER START ** // 
+		function handleCategorySelect(category:string){
+			setSelectedCategory(category)
+		}
+
+		// ** AUDIO  AND PLAYER AFTER START ** // 
 		//Create a ref(box to hold value and doesnt change on re-render) 
 		// < > tells TS What this may hold, either audio element or nothing
 		const quizAudioRef = useRef<HTMLAudioElement | null> (null)
@@ -40,7 +49,7 @@ function App () {
 			quizAudioRef.current.play()
 
 			setName(name)
-			setQuizStarted(true)
+			setNameEntered(true)
 		}
 
 		useEffect( () =>{
@@ -122,7 +131,9 @@ function App () {
 	return( 
 		<div className="min-h-screen bg-purple-950 flex items-center justify-center">
 		{
-		!quizStarted ? <QuizStart onStart={handleStart} />
+		!nameEntered ? <QuizStart onStart={handleStart} />
+		:
+		nameEntered && !quizStarted ? <QuizCategory onCategorySelect={handleCategorySelect} />
 		:
 		questions.length === 0 ? <div>Loading....</div>
 		:
