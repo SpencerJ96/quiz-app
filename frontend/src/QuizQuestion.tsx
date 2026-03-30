@@ -21,8 +21,7 @@ interface QuizQuestionProps {
 function QuizQuestion (props: QuizQuestionProps){
 	return(
 		<div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl">
-
-
+		
 		<div className="text-sm font-semibold text-purple-400 mb-2"> {props.questionNumber + 1 } Out Of {props.questionTotal}</div>
 
 		<div className="text-2xl font-bold text-yellow-500 mb-4"> {props.timer}</div>

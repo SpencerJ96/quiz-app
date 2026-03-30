@@ -29,23 +29,14 @@ function App () {
 	},
 	 	[])// useEffect on empty array = run on app load.
 
-						// ** AUDIO ARRAY AND PLAYER AFTER START ** // 
-		//Create a ref(box to hold value)
+						// ** AUDIO  AND PLAYER AFTER START ** // 
+		//Create a ref(box to hold value and doesnt change on re-render) 
 		// < > tells TS What this may hold, either audio element or nothing
 		const quizAudioRef = useRef<HTMLAudioElement | null> (null)
 
 		function handleStart (name : string){
-			const audioArray = ["/audio/Johnny Logan.mp3", "/audio/ChaChaCha.mp3", "/audio/Kuula.mp3"]
-								//Use math object
-								//Floor = round down to nearest whole number
-								//random = generate random decimal
-								//Times the random decimal by the length or the array round down answer
-								// e.g random = 0.73. --- multiply by 3 = 2.19 ---- Round down = 2
-								//Round is needed because array indexes MUST BE WHOLE numbers. 
-			const randomIndex = Math.floor(Math.random() * audioArray.length) 
-			quizAudioRef.current = new Audio(audioArray[randomIndex])
-			quizAudioRef.current.volume = 0.3
-			//Take whats currently in the audioRef and store a new audio player with the randomIndex from audioArray
+			quizAudioRef.current = new Audio ("/audio/Millionaire.mp3")
+			quizAudioRef.current.volume = 0.4
 			quizAudioRef.current.play()
 
 			setName(name)
@@ -90,13 +81,13 @@ function App () {
 					//Tracks users click to change button colour 
 					setSelectedIndex(index)
 
-
 			if (
 				index === questions[currentIndex].correctIndex) {
 					setScore(newScore)
 				} if (			//if the current question number is === the array length -1 end quiz
 					currentIndex === questions.length - 1) {
 						setQuizFinished(true)
+						saveScore(name, newScore)
 					} else {
 						setSelectedIndex(null)
 						setCurrentIndex(currentIndex + 1)
@@ -104,15 +95,25 @@ function App () {
 						
 		}
 
+
+		function saveScore(name: string, score:number){
+			
+						//Tell TS the properties of each item in array   //"scores" is either empty array on first run or what previously was saved by .setItem
+			const existing: {name:string, score:number}[] = JSON.parse(localStorage.getItem("scores") || "[]")
+				existing.push( {name, score} ) //add name and score to the array
+			const updated = existing.sort ((a,b) => b.score - a.score).slice(0,5) // Sort by highest. give top 5
+			localStorage.setItem("scores", JSON.stringify(updated)) //In local storage set "Scores" to the updated sorted array
+		}
+
 	    function handleRestart (){
 			setScore(0)
 			setQuizFinished(false)
 			setCurrentIndex(0)
 			setSelectedIndex(null)
+			setQuizStarted(false)
 			
-			const audioArray = ["/audio/Johnny Logan.mp3", "/audio/ChaChaCha.mp3", "/audio/Kuula.mp3"]
-			const randomIndex = Math.floor (Math.random() * audioArray.length)
-			quizAudioRef.current = new Audio(audioArray[randomIndex])
+			
+			quizAudioRef.current = new Audio ("/audio/Millionaire.mp3")
 			quizAudioRef.current.volume = 0.3
 			quizAudioRef.current.play()
 			
