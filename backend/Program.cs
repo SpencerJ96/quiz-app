@@ -83,7 +83,7 @@ new Question
 {
     Id = 8,
     Text = "Which country has won Eurovision the most times?",
-    Answers = new List<string> {"France", "Sweden", "Ireland", "UK"},
+    Answers = new List<string> {"France", "Moldova", "Ireland", "UK"},
     CorrectIndex = 2,
 	Category = "general"
 },

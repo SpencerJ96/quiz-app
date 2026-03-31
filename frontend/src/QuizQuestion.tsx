@@ -19,12 +19,14 @@ interface QuizQuestionProps {
 // On click, call the function that app passed down with the button that was clicked
 // "Tell app what the user picked"
 function QuizQuestion (props: QuizQuestionProps){
+	const timerColour = props.timer < 5 ? "text-red-500 text-2-xl font-bold mb-4 transition-colors duration-300 " : "text-yellow-500 text-2-xl font-bold mb-4 transition-colors duration-300 "
+	
 	return(
 		<div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl">
 		
 		<div className="text-sm font-semibold text-purple-400 mb-2"> {props.questionNumber + 1 } Out Of {props.questionTotal}</div>
 
-		<div className="text-2xl font-bold text-yellow-500 mb-4"> {props.timer}</div>
+		<div className={timerColour}> {props.timer}</div>
 
 		<div className="text-2xl font-bold text-purple-900 mb-6">{props.question.text}</div>
 		{props.question.answers.map((answer, index)  => {

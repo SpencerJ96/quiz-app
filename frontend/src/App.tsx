@@ -90,19 +90,23 @@ function App () {
 					//Tracks users click to change button colour 
 					setSelectedIndex(index)
 
+
+				
 			if (
 				index === questions[currentIndex].correctIndex) {
 					setScore(newScore)
-				} if (			//if the current question number is === the array length -1 end quiz
-					currentIndex === questions.length - 1) {
-						setQuizFinished(true)
-						saveScore(name, newScore)
-					} else {
-						setSelectedIndex(null)
-						setCurrentIndex(currentIndex + 1)
-					} 
-						
-		}
+				}
+				
+				setTimeout(() => {
+  			  if (currentIndex === questions.length - 1) {
+       			 setQuizFinished(true)
+       			 saveScore(name, newScore)
+  			  } else {
+     			   setSelectedIndex(null)
+      			  setCurrentIndex(currentIndex + 1)
+    }
+}, 1000)}
+
 
 
 		function saveScore(name: string, score:number){

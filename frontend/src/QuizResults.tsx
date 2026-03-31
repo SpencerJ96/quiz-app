@@ -29,13 +29,15 @@ function QuizResults ( props: QuizResultsProps ){
 	<div className="text-5xl font-bold text-yellow-500 mb-6">{props.score} Out of {props.total}</div>
 			<p>{message}</p>
 			 
-			 
+			 <div className="mt-4 mb-6">
+			 	<h2 className="text-xl font-bold text-purple-900 mb-4">Leaderboard</h2>
 			{scores.map((entry, index) => (
-		<div key={index}>{entry.name} - {entry.score}</div>
+		<div className = "flex justify-between items-center py-2 border-b border-purple-100 text-purple-900 font-semibold"key={index}>{index + 1} {entry.name} - {entry.score}</div>
 			))}
 
 			<button className="w-full block bg-yellow-400 hover:bg-yellow-300 text-purple-900 font-semibold py-3 px-4 rounded-xl mb-3 cursor-pointer" 
 			onClick={() => props.onRestart()}> Play again? </button>
+			</div>
 	</div>
 
 	)
